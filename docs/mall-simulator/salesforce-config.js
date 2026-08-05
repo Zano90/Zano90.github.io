@@ -22,10 +22,11 @@ const enhancedWebChat = Object.freeze({
   // Public deployment coordinates from the IBM development sandbox. They are
   // not credentials. The SCRT host remains sandbox-specific.
   bootstrapUrl:
-    "https://flender.my.site.com/ESWAgentforceMessaging1771957419228/assets/js/bootstrap.min.js",
+    "https://flender--ibmdev.sandbox.my.site.com/ESWAgentforceMessaging1771957419228/assets/js/bootstrap.min.js",
   orgId: "00D9Z00000PX42hUAD",
   deploymentName: "Agentforce_Messaging",
-  siteUrl: "https://flender.my.site.com/ESWAgentforceMessaging1771957419228",
+  siteUrl:
+    "https://flender--ibmdev.sandbox.my.site.com/ESWAgentforceMessaging1771957419228",
   scrt2Url: "https://flender--ibmdev.sandbox.my.salesforce-scrt.com",
   language: "en_US",
   // Configure this as a hidden pre-chat field mapped to a Salesforce-side
