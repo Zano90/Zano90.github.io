@@ -113,6 +113,9 @@ Before production integration:
 
 1. Create or select an Enhanced Web Chat v2 deployment for the sandbox.
 2. Add the exact GitHub Pages origin to the deployment's approved web origins.
+   Add `artem-chernykh.github.io` to the generated ESW site's **Trusted Domains
+   for Inline Frames** and `https://artem-chernykh.github.io` to Salesforce
+   CORS. Do not use a `*.github.io` wildcard.
 3. Copy the real environment's public deployment values from Salesforce's
    generated code snippet into the website adapter.
 4. Implement a small trusted bridge or authenticated Mall backend integration
