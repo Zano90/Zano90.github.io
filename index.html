@@ -17,9 +17,11 @@
 
 <script type='text/javascript'>
     window.SITE_CONTEXT = {
-        isLoggedIn: false,         
+        isLoggedIn: true,    
+        language: "en",     
         userId: "0039Z00002BAa0uQAD",          
-        roles: "user,admin,customer",             
+        roles: "user,admin,customer", 
+        clientIp: "192.168.255.255"            
     };
 </script>
 
@@ -29,9 +31,10 @@
         const isLoggedIn = !!ctx.isLoggedIn;
 
         const contextGeneral = {
-            "Client_IP":    String(ctx.clientIp || ""),
             "Page_URL":     String(window.location.href),
-            "Is_Logged_In": String(isLoggedIn)
+            "Is_Logged_In": String(isLoggedIn),
+            "Client_IP":    String(ctx.clientIp || ""),
+            "Website_Language": String(ctx.clientIp || "")
         };
 
         const contextLoggedIn = !isLoggedIn ? {} : {
