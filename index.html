@@ -13,17 +13,16 @@ function pushPrechatFields(tag) {
     const ctx = window.SITE_CONTEXT || {};
     const isLoggedIn = !!ctx.isLoggedIn;
 
-    // Names MUST match the hiddenFormFields in the published deployment config.
     const contextGeneral = {
-        "WebPageURL":     String(window.location.href).slice(0, 255),  // max 255
-        "WebIsLoggedIn":  String(isLoggedIn),                          // max 10
-        "WebClientIP":    String(ctx.clientIp || "").slice(0, 80),     // max 80
-        "WebLanguage":    String(ctx.language || "").slice(0, 80)      // max 80
+        "WebPageURL":    String(window.location.href).slice(0, 255),
+        "WebIsLoggedIn": String(isLoggedIn),
+        "WebClientIP":   String(ctx.clientIp || "").slice(0, 80),
+        "WebLanguage":   String(ctx.language || "").slice(0, 80)
     };
 
     const contextLoggedIn = !isLoggedIn ? {} : {
-        "WebUserId": String(ctx.userId || "").slice(0, 255),           // max 255
-        "WebRoles":  String(ctx.roles  || "").slice(0, 255)            // max 255
+        "WebUserId": String(ctx.userId || "").slice(0, 255),
+        "WebRoles":  String(ctx.roles  || "").slice(0, 255)
     };
 
     const payload = { ...contextGeneral, ...contextLoggedIn };
@@ -58,5 +57,16 @@ function initEmbeddedMessaging() {
         console.error('Error loading Embedded Messaging: ', err);
     }
 };
+
+// init() appends to document.body — wait for it if the script sits in <head>.
+function onBootstrapLoaded() {
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initEmbeddedMessaging);
+    } else {
+        initEmbeddedMessaging();
+    }
+}
 </script>
-<script type='text/javascript' src='https://flender--ibmdev.sandbox.my.site.com/ESWMallDemoAgentforceM1785964764088/assets/js/bootstrap.min.js' onload='initEmbeddedMessaging()'></script>
+<script type='text/javascript'
+        src='https://flender--ibmdev.sandbox.my.site.com/ESWMallDemoAgentforceM1785964764088/assets/js/bootstrap.min.js'
+        onload='onBootstrapLoaded()'></script>
