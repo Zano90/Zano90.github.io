@@ -27,6 +27,8 @@
 
 <script type='text/javascript'>
     window.addEventListener('onEmbeddedMessagingReady', () => {
+        console.log("Received the onEmbeddedMessagingReady event…");
+
         const ctx = window.SITE_CONTEXT || {};
         const isLoggedIn = !!ctx.isLoggedIn;
 
@@ -42,13 +44,13 @@
             "Website_Roles": String(ctx.roles || "")
         };
 
+        console.log("contextGeneral: ", contextGeneral);
+        console.log("contextLoggedIn: ", contextLoggedIn);
+        console.log("context: ", {...contextGeneral, ...contextLoggedIn});
         embeddedservice_bootstrap.prechatAPI.setHiddenPrechatFields({
             ...contextGeneral,
             ...contextLoggedIn
         });
-
-        const payload = { ...contextGeneral, ...contextLoggedIn };
-        console.log('prechat →', payload);
     });
 
     function initEmbeddedMessaging() {
