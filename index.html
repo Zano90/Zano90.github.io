@@ -15,10 +15,37 @@
 </head>
 <body>
 
-<h1>Playground</h1>
+<script type='text/javascript'>
+    window.SITE_CONTEXT = {
+        isLoggedIn: false,         
+        userId: "0039Z00002BAa0uQAD",          
+        roles: "user,admin,customer",             
+    };
+</script>
 
 <script type='text/javascript'>
-	function initEmbeddedMessaging() {
+    window.addEventListener('onEmbeddedMessagingReady', () => {
+        const ctx = window.SITE_CONTEXT || {};
+        const isLoggedIn = !!ctx.isLoggedIn;
+
+        const contextGeneral = {
+            "Client_IP":    String(ctx.clientIp || ""),
+            "Page_URL":     String(window.location.href),
+            "Is_Logged_In": String(isLoggedIn)
+        };
+
+        const contextLoggedIn = !isLoggedIn ? {} : {
+            "Website_User_Id": String(ctx.userId    || ""),
+            "Website_Account": String(ctx.accountId || "")
+        };
+
+        embeddedservice_bootstrap.prechatAPI.setHiddenPrechatFields({
+            ...contextGeneral,
+            ...contextLoggedIn
+        });
+    });
+
+    function initEmbeddedMessaging() {
 		try {
 			embeddedservice_bootstrap.settings.language = 'en_US'; // For example, enter 'en' or 'en-US'
 
