@@ -1,72 +1,73 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+    <title>Agentforce Chat</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 50px;
+        }
+    </style>
+</head>
+<body>
+
 <script type='text/javascript'>
-window.SITE_CONTEXT = {
-    isLoggedIn: true,
-    language:   "en",
-    userId:     "0039Z00002BAa0uQAD",
-    roles:      "user,admin,customer",
-    clientIp:   "192.168.255.255"
-};
+    window.SITE_CONTEXT = {
+        isLoggedIn: true,    
+        language: "en",     
+        userId: "0039Z00002BAa0uQAD",          
+        roles: "user,admin,customer", 
+        clientIp: "192.168.255.255"            
+    };
 </script>
 
 <script type='text/javascript'>
-function pushPrechatFields(tag) {
-    const ctx = window.SITE_CONTEXT || {};
-    const isLoggedIn = !!ctx.isLoggedIn;
+    window.addEventListener('onEmbeddedMessagingReady', () => {
+        const ctx = window.SITE_CONTEXT || {};
+        const isLoggedIn = !!ctx.isLoggedIn;
 
-    const contextGeneral = {
-        "WebPageURL":    String(window.location.href).slice(0, 255),
-        "WebIsLoggedIn": String(isLoggedIn),
-        "WebClientIP":   String(ctx.clientIp || "").slice(0, 80),
-        "WebLanguage":   String(ctx.language || "").slice(0, 80)
-    };
+        const contextGeneral = {
+            "WebPageURL":     String(window.location.href),
+            "WebIsLoggedIn": String(isLoggedIn),
+            "WebClienIP":    String(ctx.clientIp || ""),
+            "WebLanguage": String(ctx.language || "")
+        };
 
-    const contextLoggedIn = !isLoggedIn ? {} : {
-        "WebUserId": String(ctx.userId || "").slice(0, 255),
-        "WebRoles":  String(ctx.roles  || "").slice(0, 255)
-    };
+        const contextLoggedIn = !isLoggedIn ? {} : {
+            "WebUserId": String(ctx.userId || ""),
+            "WebRoles": String(ctx.roles || "")
+        };
 
-    const payload = { ...contextGeneral, ...contextLoggedIn };
+        console.log("context: ", {...contextGeneral, ...contextLoggedIn});
+        embeddedservice_bootstrap.prechatAPI.setHiddenPrechatFields({
+            ...contextGeneral,
+            ...contextLoggedIn
+        });
+    });
 
-    try {
-        embeddedservice_bootstrap.prechatAPI.setHiddenPrechatFields(payload);
-        console.log('[prechat] sent @ ' + tag, payload);
-    } catch (e) {
-        console.error('[prechat] failed @ ' + tag, e);
-    }
-}
+    function initEmbeddedMessaging() {
+		try {
+			embeddedservice_bootstrap.settings.language = 'en_US'; // For example, enter 'en' or 'en-US'
 
-[
-    'onEmbeddedMessagingReady',
-    'onEmbeddedMessagingButtonCreated',
-    'onEmbeddedMessagingButtonClicked'
-].forEach(ev => window.addEventListener(ev, () => pushPrechatFields(ev)));
-
-function initEmbeddedMessaging() {
-    try {
-        embeddedservice_bootstrap.settings.language = 'en_US';
-
-        embeddedservice_bootstrap.init(
-            '00D9Z00000PX42h',
-            'Mall_Demo_Agentforce_Messaging',
-            'https://flender--ibmdev.sandbox.my.site.com/ESWMallDemoAgentforceM1785964764088',
-            {
-                scrt2URL: 'https://flender--ibmdev.sandbox.my.salesforce-scrt.com'
-            }
-        );
-    } catch (err) {
-        console.error('Error loading Embedded Messaging: ', err);
-    }
-};
-
-// init() appends to document.body — wait for it if the script sits in <head>.
-function onBootstrapLoaded() {
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', initEmbeddedMessaging);
-    } else {
-        initEmbeddedMessaging();
-    }
-}
+			embeddedservice_bootstrap.init(
+				'00D9Z00000PX42h',
+				'Mall_Demo_Agentforce_Messaging',
+				'https://flender--ibmdev.sandbox.my.site.com/ESWMallDemoAgentforceM1785964764088',
+				{
+					scrt2URL: 'https://flender--ibmdev.sandbox.my.salesforce-scrt.com'
+				}
+			);
+		} catch (err) {
+			console.error('Error loading Embedded Messaging: ', err);
+		}
+	};
 </script>
-<script type='text/javascript'
-        src='https://flender--ibmdev.sandbox.my.site.com/ESWMallDemoAgentforceM1785964764088/assets/js/bootstrap.min.js'
-        onload='onBootstrapLoaded()'></script>
+<script type='text/javascript' src='https://flender--ibmdev.sandbox.my.site.com/ESWMallDemoAgentforceM1785964764088/assets/js/bootstrap.min.js' onload='initEmbeddedMessaging()'></script>
+
+
+</body>
+</html>
