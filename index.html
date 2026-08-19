@@ -46,6 +46,9 @@
             ...contextGeneral,
             ...contextLoggedIn
         });
+
+        const payload = { ...contextGeneral, ...contextLoggedIn };
+        console.log('prechat →', payload);
     });
 
     function initEmbeddedMessaging() {
