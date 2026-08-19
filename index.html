@@ -36,7 +36,7 @@
 
         const contextLoggedIn = !isLoggedIn ? {} : {
             "Website_User_Id": String(ctx.userId    || ""),
-            "Website_Account": String(ctx.accountId || "")
+            "Website_Roles": String(ctx.roles || "")
         };
 
         embeddedservice_bootstrap.prechatAPI.setHiddenPrechatFields({
