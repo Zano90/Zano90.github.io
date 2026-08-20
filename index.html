@@ -25,9 +25,9 @@
 </script>
 
 <script type='text/javascript'>
-    function initEmbeddedMessaging() {
-		try {
-            // populate hidden pre-chat fields send using POST method to Salesforce
+    // populate hidden pre-chat fields with user context
+    window.addEventListener('onEmbeddedMessagingReady', () => {
+        try {
             const ctx = window.SITE_CONTEXT || {};
             const isLoggedIn = !!ctx.isLoggedIn;
 
@@ -35,21 +35,27 @@
                 "WebPageURL": String(window.location.href),
                 "WebIsLoggedIn": String(isLoggedIn),
                 "WebClientIP": String(ctx.clientIp || ""),
-                "WebLanguage": String(ctx.language || "")
+                "WebLanguage": String(document.documentElement.lang || "")
             };
 
             const contextLoggedIn = !isLoggedIn ? {} : {
                 "WebUserId": String(ctx.userId || ""),
-                "WebRoles": String(ctx.roles || "")
+                "WebRoles": String(ctx.roles || "")//,
+                //"WebLanguage": String(ctx.language || "")
             };
 
             embeddedservice_bootstrap.prechatAPI.setHiddenPrechatFields({
                 ...contextGeneral,
                 ...contextLoggedIn
             });
+        } catch (err) {
+			console.error('Error loading context information: ', err);
+		}
+    })
 
-            // script below generated from Salesforce Embedded Service Deployment
-
+    // loading embedded messaging
+    function initEmbeddedMessaging() {
+        try {
 			embeddedservice_bootstrap.settings.language = 'en_US'; // For example, enter 'en', 'en-US' or 'en_US'
 
 			embeddedservice_bootstrap.init(
