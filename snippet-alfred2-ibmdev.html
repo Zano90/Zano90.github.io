@@ -1,30 +1,36 @@
 <script type='text/javascript'>
+    // load hidden pre-chat fields with user context
     window.addEventListener('onEmbeddedMessagingReady', () => {
-        const ctx = {}; // TODO: load context information object & ensure below properties are populated correctly
+        try {
+            const ctx = {}; // TODO: load context information object & ensure below properties are populated correctly
 
-        const isLoggedIn = !!ctx.isLoggedIn; // TODO: verify if ctx.isLoggedIn is correct
+            const isLoggedIn = !!ctx.isLoggedIn; // TODO: verify if ctx.isLoggedIn is correct
 
-        const contextGeneral = {
-            "IsLOggedIn": String(isLoggedIn),
-            "WebsiteUrl": String(window.location.href || ""),          // TODO: verify if window.location.href provides the current url
-            "Language":   String(document.documentElement.lang || "")  // TODO: verify if document.documentElement.lang provides the lanugage information in the expected ISO format
-        };
+            const contextGeneral = {
+                "IsLOggedIn": String(isLoggedIn),
+                "WebsiteUrl": String(window.location.href || ""),          // TODO: verify if window.location.href provides the current url
+                "Language":   String(document.documentElement.lang || "")  // TODO: verify if document.documentElement.lang provides the lanugage information in the expected ISO format
+            };
 
-        // data only if user is logged in (duplicate properties will case overwrite so "Logged-In" properties will win)
-        const contextLoggedIn = !isLoggedIn ? {} : {
-            "UserIdentifier": String(ctx.email || ""),             // TODO: verify if ctx.email is correct
-            "UserEamil":      String(ctx.email || ""),             // TODO: verify if ctx.email is correct
-            "UserRoles":      String(ctx.roles?.join(",") || ""),  // TODO: verify if ctx.roles is correct, the ?.join(",") is converting a list like ["one","two"] into "one,two"
-            "Language":       String(ctx.language || "")           // TODO: verify if ctx.language is correct
-        };
+            // data only if user is logged in (duplicate properties will case overwrite so "Logged-In" properties will win)
+            const contextLoggedIn = !isLoggedIn ? {} : {
+                "UserIdentifier": String(ctx.email || ""),             // TODO: verify if ctx.email is correct
+                "UserEamil":      String(ctx.email || ""),             // TODO: verify if ctx.email is correct
+                "UserRoles":      String(ctx.roles?.join(",") || ""),  // TODO: verify if ctx.roles is correct, the ?.join(",") is converting a list like ["one","two"] into "one,two"
+                "Language":       String(ctx.language || "")           // TODO: verify if ctx.language is correct
+            };
 
-        console.log("context: ", {...contextGeneral, ...contextLoggedIn});
-        embeddedservice_bootstrap.prechatAPI.setHiddenPrechatFields({
-            ...contextGeneral,
-            ...contextLoggedIn
-        });
+            console.log("context: ", {...contextGeneral, ...contextLoggedIn});
+            embeddedservice_bootstrap.prechatAPI.setHiddenPrechatFields({
+                ...contextGeneral,
+                ...contextLoggedIn
+            });
+        } catch (err) {
+			console.error('Error loading context information: ', err);
+		}
     });
 
+    // load embedded messaging
     function initEmbeddedMessaging() {
 		try {
 			embeddedservice_bootstrap.settings.language = 'en_US'; // For example, enter 'en', 'en-US' or 'en_US'
