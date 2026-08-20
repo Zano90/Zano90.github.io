@@ -1,5 +1,5 @@
 <script type='text/javascript'>
-    // load hidden pre-chat fields with user context
+    // load hidden pre-chat fields with user context using SF dispatched event "onEmbeddedMessagingReady"
     window.addEventListener('onEmbeddedMessagingReady', () => {
         try {
             const ctx = {}; // TODO: load context information object & ensure below properties are populated correctly
