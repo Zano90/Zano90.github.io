@@ -1,0 +1,45 @@
+<script type='text/javascript'>
+    window.addEventListener('onEmbeddedMessagingReady', () => {
+        const ctx = {}; // TODO: load context information object & ensure below properties are populated correctly
+
+        const isLoggedIn = !!ctx.isLoggedIn; // TODO: verify if ctx.isLoggedIn is correct
+
+        const contextGeneral = {
+            "IsLOggedIn": String(isLoggedIn),
+            "WebsiteUrl": String(window.location.href || ""),          // TODO: verify if window.location.href provides the current url
+            "Language":   String(document.documentElement.lang || "")  // TODO: verify if document.documentElement.lang provides the lanugage information in the expected ISO format
+        };
+
+        // data only if user is logged in (duplicate properties will case overwrite so "Logged-In" properties will win)
+        const contextLoggedIn = !isLoggedIn ? {} : {
+            "UserIdentifier": String(ctx.email || ""),             // TODO: verify if ctx.email is correct
+            "UserEamil":      String(ctx.email || ""),             // TODO: verify if ctx.email is correct
+            "UserRoles":      String(ctx.roles?.join(",") || ""),  // TODO: verify if ctx.roles is correct, the ?.join(",") is converting a list like ["one","two"] into "one,two"
+            "Language":       String(ctx.language || "")           // TODO: verify if ctx.language is correct
+        };
+
+        console.log("context: ", {...contextGeneral, ...contextLoggedIn});
+        embeddedservice_bootstrap.prechatAPI.setHiddenPrechatFields({
+            ...contextGeneral,
+            ...contextLoggedIn
+        });
+    });
+
+    function initEmbeddedMessaging() {
+		try {
+			embeddedservice_bootstrap.settings.language = 'en_US'; // For example, enter 'en', 'en-US' or 'en_US'
+
+			embeddedservice_bootstrap.init(
+				'00D9Z00000PX42h',
+				'Mall_Demo_Agentforce_Messaging',
+				'https://flender--ibmdev.sandbox.my.site.com/ESWMallDemoAgentforceM1785964764088',
+				{
+					scrt2URL: 'https://flender--ibmdev.sandbox.my.salesforce-scrt.com'
+				}
+			);
+		} catch (err) {
+			console.error('Error loading Embedded Messaging: ', err);
+		}
+	};
+</script>
+<script type='text/javascript' src='https://flender--ibmdev.sandbox.my.site.com/ESWMallDemoAgentforceM1785964764088/assets/js/bootstrap.min.js' onload='initEmbeddedMessaging()'></script>
