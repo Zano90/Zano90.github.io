@@ -11,6 +11,86 @@
             text-align: center;
             margin: 50px;
         }
+    
+        .flender-hero {
+            position: relative;
+            min-height: 100vh;
+            overflow: hidden;
+            font-family: Arial, Helvetica, sans-serif;
+            color: #fff;
+            /* CSS "earth at night" + deep space backdrop */
+            background:
+            radial-gradient(circle at 50% 62%, rgba(255,170,80,0.35) 0%, rgba(255,140,60,0.12) 18%, transparent 42%),
+            radial-gradient(circle at 70% 30%, rgba(120,200,255,0.15) 0%, transparent 30%),
+            radial-gradient(ellipse at 50% 60%, #0a1a2f 0%, #04070f 60%, #01030a 100%);
+        }
+
+        /* faux starfield */
+        .flender-hero::before {
+            content: "";
+            position: absolute; inset: 0;
+            background-image:
+            radial-gradient(1px 1px at 20% 30%, #fff, transparent),
+            radial-gradient(1px 1px at 80% 20%, #cfe8ff, transparent),
+            radial-gradient(1px 1px at 40% 70%, #fff, transparent),
+            radial-gradient(1.5px 1.5px at 65% 55%, #ffd9a0, transparent),
+            radial-gradient(1px 1px at 15% 80%, #fff, transparent),
+            radial-gradient(1px 1px at 90% 75%, #cfe8ff, transparent);
+            opacity: .8;
+        }
+
+        .flender-hero__img {
+            position: absolute; inset: 0;
+            width: 100%; height: 100%;
+            object-fit: cover;
+            z-index: 0;
+        }
+
+        /* glowing blue orbit ring */
+        .flender-hero__ring {
+            position: absolute;
+            left: 50%; top: 58%;
+            width: 46vw; height: 46vw;
+            transform: translate(-50%, -50%);
+            border: 2px solid rgba(60,170,255,0.9);
+            border-radius: 50%;
+            box-shadow:
+            0 0 25px rgba(40,150,255,0.8),
+            inset 0 0 40px rgba(40,150,255,0.3);
+        }
+
+        /* content card */
+        .flender-hero__card {
+            position: absolute;
+            left: 8%; top: 45%;
+            max-width: 340px;
+            padding: 22px 24px;
+            background: rgba(10,25,45,0.72);
+            backdrop-filter: blur(2px);
+            line-height: 1.5;
+            font-size: 14px;
+            z-index: 2;
+        }
+
+        .flender-hero__tag {
+            display: inline-block;
+            background: #2f7fd6;
+            padding: 4px 14px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            margin-bottom: 14px;
+        }
+
+        .flender-hero__btn {
+            display: inline-block;
+            margin-top: 16px;
+            padding: 8px 16px;
+            background: #2f7fd6;
+            color: #fff;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        .flender-hero__btn:hover { background: #2469b5; }
     </style>
 </head>
 <body>
@@ -23,6 +103,28 @@
         clientIp: "192.168.255.255"            
     };
 </script>
+
+<!-- Flender-style hero background -->
+<div class="flender-hero">
+  <!-- Optional: put your own licensed image here; otherwise the CSS backdrop shows -->
+  <!-- <img class="flender-hero__img" src="your-image.jpg" alt=""> -->
+
+  <div class="flender-hero__ring"></div>
+
+  <div class="flender-hero__card">
+    <span class="flender-hero__tag">SERVICE</span>
+    <p>
+      Flender bietet umfassende Services für Getriebe und Kupplungen über
+      deren gesamten Lebenszyklus. Neben unseren klassischen Services wie
+      Ersatzteil-Services, Reparaturen und Instandhaltung, dem Technical
+      Support sowie verschiedenen Retrofit- und Modernisierungsoptionen
+      helfen wir Ihnen mit unseren Diagnose Services Ihre digitale Zukunft
+      zu gestalten.
+    </p>
+    <a class="flender-hero__btn" href="#">Service Standorte ›</a>
+  </div>
+</div>
+
 
 <script type='text/javascript'>
     // load hidden pre-chat fields with user context using SF dispatched event "onEmbeddedMessagingReady"

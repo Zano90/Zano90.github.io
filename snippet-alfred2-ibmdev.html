@@ -7,9 +7,9 @@
             const isLoggedIn = !!ctx.isLoggedIn; // TODO: verify if ctx.isLoggedIn is correct
 
             const contextGeneral = {
-                "IsLOggedIn": String(isLoggedIn),
-                "WebsiteUrl": String(window.location.href || ""),          // TODO: verify if window.location.href provides the current url
-                "Language":   String(document.documentElement.lang || "")  // TODO: verify if document.documentElement.lang provides the lanugage information in the expected ISO format
+                "IsLoggedIn": String(isLoggedIn),
+                "WebsiteUrl": String(window.location.href || ""),            // TODO: verify if window.location.href provides the current url
+                "Language":   String(document.documentElement.lang || "en")  // TODO: verify if document.documentElement.lang provides the lanugage information in the expected ISO format
             };
 
             // data only if user is logged in (duplicate properties will case overwrite so "Logged-In" properties will win)
@@ -30,10 +30,10 @@
 		}
     });
 
-    // load embedded messaging
+    // load embedded messaging - this part changes once we have Alfred on Test Sandbox and then also on Prod
     function initEmbeddedMessaging() {
 		try {
-			embeddedservice_bootstrap.settings.language = 'en_US'; // For example, enter 'en', 'en-US' or 'en_US'
+			embeddedservice_bootstrap.settings.language = 'en'; 
 
 			embeddedservice_bootstrap.init(
 				'00D9Z00000PX42h',
